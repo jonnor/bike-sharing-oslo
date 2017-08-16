@@ -1,4 +1,4 @@
-# Datascience exploratory project
+# Bike sharing data exploration
 
 Exploring aspects of bike sharing using data science.
 
@@ -8,9 +8,7 @@ For INF121 class at NMBU, as part of Master in Data Science.
 
 Just ideas
 
-## Bike sharing
-
-Datasets
+## Datasets
 
 https://www.kaggle.com/jboysen/austin-bike (incl weather)
 https://cloud.google.com/bigquery/public-data/nyc-citi-bike
@@ -20,7 +18,9 @@ Notes
 
 * Maybe use "feels like temperature" (perceputal) instead of just degrees
 
-Possible patterns
+## Things to explore
+
+### Possible patterns
 
 To and from work.
 Social 'area' versus 'work area'
@@ -32,10 +32,9 @@ https://www.kaggle.com/jboysen/austin-crime
 
 https://www.kaggle.com/crailtap/nyc-real-time-traffic-speed-data-feed
 
-
 Usage differences wrt weather
 
-Cross-city comparisons
+### Cross-city comparisons
 
 * weather dependency??
 Can we compare US and Europa
@@ -43,22 +42,23 @@ Big city versus smaller/town
 
 * Do people go to work/home at same time?
 
-Trends, development over time
+### Trends
+Development over time
 
 * Usage
 * Any of above patterns
 
-Usage prediction
+### Usage prediction
 
-Visualization
+### Visualization
 
-Support or challenge existing results
+### Support or challenge existing results
 
 
-Related work
+### Related work
+Existing work by othters
 
 * https://www.kaggle.com/c/bike-sharing-demand competition
-
 
 * https://www.kaggle.com/h19881812/data-vizualization/comments/code
 Suprising! "People rent bikes more in fall, and much less in spring"
@@ -70,11 +70,10 @@ and for the daytime in weekend"
 
 Use graph headlines for the (clear) conclusions supported!
 
-
 * http://brandonharris.io/kaggle-bike-sharing/
 Prediction result in to 10%. Example code in R, explained
 
-
-Related idea: Taxi trips (etc Uber)
+Can also look at other transportation modes?
+Like Taxi trips (and Uber etc)
 
 
