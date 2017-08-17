@@ -30,9 +30,10 @@ Special events. Concerts, festival . Yearly?
 Popularity in different areas
 
 Crime?? ? any relation to bike???
-https://www.kaggle.com/jboysen/austin-crime 
+[Austin crime dataset](https://www.kaggle.com/jboysen/austin-crime)
 
-https://www.kaggle.com/crailtap/nyc-real-time-traffic-speed-data-feed
+Any relation to traffic patterns?
+[New York traffic speed](https://www.kaggle.com/crailtap/nyc-real-time-traffic-speed-data-feed)
 
 Usage differences wrt weather
 
@@ -56,23 +57,28 @@ Development over time
 
 ### Support or challenge existing results
 
+### Other transportation modes
+
+Can also look at other transportation modes?
+Like Taxi trips (and Uber etc).
+Either to compare, or to get inspiration for analysis
 
 ### Related work
 Existing work by othters
 
-* https://www.kaggle.com/c/bike-sharing-demand competition
+* [Kaggle bike sharing prediction competition](https://www.kaggle.com/c/bike-sharing-demand)
 
-* https://www.kaggle.com/h19881812/data-vizualization/comments/code
+* [Kaggle bike sharing analysis 1](https://www.kaggle.com/h19881812/data-vizualization/comments/code)
 Suprising! "People rent bikes more in fall, and much less in spring"
 Expected. "People rent bikes more with good weather"
 
-https://www.kaggle.com/benhamner/bike-rentals-by-time/comments/code
+* [Kaggle bike sharing analysis by Ben Hamner](https://www.kaggle.com/benhamner/bike-rentals-by-time/comments/code)
 "People rent bikes for morning evening commute on weekdays,
 and for the daytime in weekend"
 
 Use graph headlines for the (clear) conclusions supported!
 
-* [brandonharris.io: Kaggle Bike sharing]http://brandonharris.io/kaggle-bike-sharing/
+* [brandonharris.io: Kaggle Bike sharing](http://brandonharris.io/kaggle-bike-sharing)
 Prediction result in to 10% top of the competition. Example code in R, explained
 
 * [A Tale of Twenty-Two Million Citi Bike Rides](http://toddwschneider.com/posts/a-tale-of-twenty-two-million-citi-bikes-analyzing-the-nyc-bike-share-system/)
@@ -88,7 +94,10 @@ Real-time data, no historical data though?
 Website has interactive real-time visualization of bike availability.
 Includes Oslo, Stavanger, Bergen.
 
-Can also look at other transportation modes?
-Like Taxi trips (and Uber etc)
+* [motivate.co: Bikeshare feeds for cities in US](https://www.motivateco.com/use-our-data/)
+* [General Bikeshare Feed Specification](https://github.com/NABSA/gbfs), a standardized data feed for bike share system availability.
+
+* [bikeshare-research.org](https://bikeshare-research.org/), links to lot of Bike Sharing Systems.
+Has API for getting access to data of many of them. Also only real-time, nothing historical?
 
 
