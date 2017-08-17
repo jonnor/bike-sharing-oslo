@@ -10,9 +10,11 @@ Just ideas
 
 ## Datasets
 
-https://www.kaggle.com/jboysen/austin-bike (incl weather)
-https://cloud.google.com/bigquery/public-data/nyc-citi-bike
-https://cloud.google.com/bigquery/public-data/bay-bike-share
+* [Austin](https://www.kaggle.com/jboysen/austin-bike) (incl weather)
+* [New York Citibike](https://cloud.google.com/bigquery/public-data/nyc-citi-bike), [original](https://www.citibikenyc.com/system-data)
+* [Bay area](https://cloud.google.com/bigquery/public-data/bay-bike-share)
+* [Washington D.C. Capital Bike share](https://www.capitalbikeshare.com/system-data)
+* [Washington D.C, Capital Bike incl weather data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset)
 
 Notes
 
@@ -70,8 +72,21 @@ and for the daytime in weekend"
 
 Use graph headlines for the (clear) conclusions supported!
 
-* http://brandonharris.io/kaggle-bike-sharing/
-Prediction result in to 10%. Example code in R, explained
+* [brandonharris.io: Kaggle Bike sharing]http://brandonharris.io/kaggle-bike-sharing/
+Prediction result in to 10% top of the competition. Example code in R, explained
+
+* [A Tale of Twenty-Two Million Citi Bike Rides](http://toddwschneider.com/posts/a-tale-of-twenty-two-million-citi-bikes-analyzing-the-nyc-bike-share-system/)
+Anonymizing data is hard. Can uniquely identify 80-90% of trips based on included (anonymized data).
+Analyses how many bikes are manually moved between pick-up stations (by staff).
+Models usage relative to weather, incl temperature, rain and snow. Found a non-linear threshold wrt temperature, with transition around 60f/15c.
+
+* [Detecting Anomolous Events in Washington DC Bike Sharing Dataset](http://blog.nycdatascience.com/student-works/detecting-anomolous-events-in-washington-dc-bike-sharing-dataset/).
+Using random forest to decide the relative influence of different variables. Time (hour and day) influences most, then weather, wind is last.
+
+* [Citibike.es](https://citybik.es/), public API for 400 cities across the world.
+Real-time data, no historical data though?
+Website has interactive real-time visualization of bike availability.
+Includes Oslo, Stavanger, Bergen.
 
 Can also look at other transportation modes?
 Like Taxi trips (and Uber etc)
