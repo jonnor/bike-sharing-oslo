@@ -10,7 +10,7 @@ Just ideas
 
 ## Datasets
 
-* [Austin](https://www.kaggle.com/jboysen/austin-bike) (incl weather)
+* [Austin](https://www.kaggle.com/jboysen/austin-bike)
 * [New York Citibike](https://cloud.google.com/bigquery/public-data/nyc-citi-bike), [original](https://www.citibikenyc.com/system-data)
 * [Bay area](https://cloud.google.com/bigquery/public-data/bay-bike-share)
 * [Washington D.C. Capital Bike share](https://www.capitalbikeshare.com/system-data)
