@@ -6,7 +6,7 @@ For INF121 class at NMBU, as part of Master in Data Science.
 
 ## Status
 
-Just ideas
+Pre-project planning
 
 ## Project plan
 
@@ -18,8 +18,13 @@ Important dates
 * Monday 4. September, present poster
 * 15. September, project report deadline
 
-Decide topic
-Pre-analyse datasets.
+TODO
+
+* Pre-analyse datasets, check their characteristics
+* Come up with a set of topics/questions to explore.
+* Check that we have data sets, and idea for method for each topic
+
+Data charateristics
 
 * Type of data. Trips or station
 * Time-range
