@@ -8,14 +8,49 @@ For INF121 class at NMBU, as part of Master in Data Science.
 
 Just ideas
 
+## Project plan
+
+Important dates
+
+* Tuesday, 22. August, project plan delivered
+* Wednesday 30. August, internal project presentation
+* Friday 1. September, print the poster
+* Monday 4. September, present poster
+* 15. September, project report deadline
+
+Decide topic
+Pre-analyse datasets.
+
+* Type of data. Trips or station
+* Time-range
+* Location(s)
+* Resolution
+* User identification
+* Demographic information
+
+
 ## Datasets
+
+Per-trip
 
 * [Austin](https://www.kaggle.com/jboysen/austin-bike)
 * [New York Citibike](https://cloud.google.com/bigquery/public-data/nyc-citi-bike), [original](https://www.citibikenyc.com/system-data)
 * [Bay area](https://cloud.google.com/bigquery/public-data/bay-bike-share)
 * [Washington D.C. Capital Bike share](https://www.capitalbikeshare.com/system-data)
 * [Washington D.C, Capital Bike incl weather data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset)
+* [Seattle](https://www.kaggle.com/pronto/cycle-share-dataset)
+* [Oslo](https://developer.oslobysykkel.no/data). Individual trip data. April 2016 - July 2017 (now).
+
+Rentals in period
+
+* [London](https://data.london.gov.uk/dataset/number-bicycle-hires). Daily, from July 2010.
 * [Watson Anlaytics Sample Dataset](https://www.ibm.com/communities/analytics/watson-analytics-blog/operations-dem-planning_-bikeshare/)
+
+Real-time availability
+
+* [Citibike.es](https://citybik.es/), public API for 400 cities across the world.
+* [motivate.co: Bikeshare feeds for cities in US](https://www.motivateco.com/use-our-data/)
+* [General Bikeshare Feed Specification](https://github.com/NABSA/gbfs), a standardized data feed for bike share system availability.
 
 Notes
 
@@ -91,14 +126,10 @@ Models usage relative to weather, incl temperature, rain and snow. Found a non-l
 Using random forest to decide the relative influence of different variables. Time (hour and day) influences most, then weather, wind is last.
 
 * [Citibike.es](https://citybik.es/), public API for 400 cities across the world.
-Real-time data, no historical data though?
 Website has interactive real-time visualization of bike availability.
-Includes Oslo, Stavanger, Bergen.
-
-* [motivate.co: Bikeshare feeds for cities in US](https://www.motivateco.com/use-our-data/)
-* [General Bikeshare Feed Specification](https://github.com/NABSA/gbfs), a standardized data feed for bike share system availability.
 
 * [bikeshare-research.org](https://bikeshare-research.org/), links to lot of Bike Sharing Systems.
 Has API for getting access to data of many of them. Also only real-time, nothing historical?
 
+* [Guardian: Bike share mapping creates beautiful portraits of London, NYC and Berlin](https://www.theguardian.com/cities/2016/aug/09/bike-share-mapping-gps-data-interactive-london-nyc-berlin-cf-city-flows). Pretty visualizations of trips over time
 
