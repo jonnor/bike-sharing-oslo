@@ -15,6 +15,7 @@ Just ideas
 * [Bay area](https://cloud.google.com/bigquery/public-data/bay-bike-share)
 * [Washington D.C. Capital Bike share](https://www.capitalbikeshare.com/system-data)
 * [Washington D.C, Capital Bike incl weather data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset)
+* [Watson Anlaytics Sample Dataset](https://www.ibm.com/communities/analytics/watson-analytics-blog/operations-dem-planning_-bikeshare/)
 
 Notes
 
