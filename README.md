@@ -111,7 +111,41 @@ bikeshare_stations
     - dock count
     - landmark
     - installation date
-   
+
+### [Seattle] dataset notes
+
+Dataset size:
+  - 286,000+ trips
+  - October 2014 - present
+  
+station dataset
+  Data types:
+    - station info (ID, name, lat, long)
+    - installation date
+    - dock count
+    
+trip statset
+  Data types:
+    - trip ID
+    - time (start, stop)
+    - bike ID
+    - duration (seconds)
+    - station (start, stop)
+    - user type
+    - gender
+    - birth year
+
+weather dataset
+  Data types:
+    - date
+    - temp (max, min, mean)
+    - dew point (max, min, mean)
+    - humidity (max, min, mean)
+    - pressure (max, min, mean)
+    - visibility (max, min, mean)
+    - wind speed (max, mean), gust
+    - precipitation (mm)
+    
 ## Things to explore
 
 ### Possible patterns
