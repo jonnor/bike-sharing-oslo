@@ -60,6 +60,112 @@ Notes
 
 * Maybe use "feels like temperature" (perceputal) instead of just degrees
 
+### [New York Citibike] dataset notes
+
+Dataset size:
+  - 33,300,000+ trips
+  - September 2013 - present (updated daily)
+    
+NYC citibike_trips
+  Data types:
+    - Duration (time in seconds)
+    - Start and stop time
+    - Start and stop station (id#, name, lat, long)
+    - Bike ID
+    - User data (ID, birth year, gender)
+    
+NYC citibike_stations
+  Data types:
+    - station info (id, name, short_name)
+    - station location (lat, long (WGS 84), region ID)
+    - rental methods
+    - capacity, availablity (bikes and docks)
+    - station status
+
+
+### [Washington D.C. Capital Bike Share] dataset notes
+Data sets from september 2010 to 2017. Each set contains data for quarter of a year.
+
+Data types:
+  - Duration
+  - Start date
+  - End date
+  - Start station number
+  - Start station
+  - End station number
+  - End station
+  - Bike number
+  - Member Type
+
+Earlier Data sets have station numbers in Parenthesis after they name
+Have not yet found any other information about the locations of the stations than their station number. 
+
+The data sets are processed such that it excludes trips taken by staff (such as service etc.) and short trips under 60 seconds in duration (potential false starts).
+
+
+### [Bay area] dataset notes
+
+Dataset size:
+  - 983,000+ trips
+  - August 2013 - present (updated daily)
+
+bikeshare_trips
+  Data types:
+    - trip ID
+    - start and end data (date, station_name, station_id)
+    - bike number
+    - zip code
+    - subscriber type
+    
+bikeshare_status
+  Data types:
+    - station ID
+    - availability (bikes and docks)
+    - time
+    
+bikeshare_stations
+  Data types:
+    - station ID
+    - station name
+    - station location (lat, long)
+    - dock count
+    - landmark
+    - installation date
+
+### [Seattle] dataset notes
+
+Dataset size:
+  - 286,000+ trips
+  - October 2014 - present
+  
+station dataset
+  Data types:
+    - station info (ID, name, lat, long)
+    - installation date
+    - dock count
+    
+trip statset
+  Data types:
+    - trip ID
+    - time (start, stop)
+    - bike ID
+    - duration (seconds)
+    - station (start, stop)
+    - user type
+    - gender
+    - birth year
+
+weather dataset
+  Data types:
+    - date
+    - temp (max, min, mean)
+    - dew point (max, min, mean)
+    - humidity (max, min, mean)
+    - pressure (max, min, mean)
+    - visibility (max, min, mean)
+    - wind speed (max, mean), gust
+    - precipitation (mm)
+    
 ## Things to explore
 
 ### Possible patterns
