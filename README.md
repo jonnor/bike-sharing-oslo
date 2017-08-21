@@ -18,12 +18,6 @@ Important dates
 * Monday 4. September, present poster
 * 15. September, project report deadline
 
-TODO
-
-* Pre-analyse datasets, check their characteristics
-* Come up with a set of topics/questions to explore.
-* Check that we have data sets, and idea for method for each topic
-
 Data charateristics
 
 * Type of data. Trips or station
@@ -33,6 +27,15 @@ Data charateristics
 * User identification
 * Demographic information
 
+First explorations
+
+* Runar: Time patterns. Daily/weekly etc.
+* Jon: Location patterns. Visualization. Oslo dataset.
+* Tyrone: Weather dependency?
+
+TODO
+
+* Check that we have data sets, and idea for method for each topic
 
 ## Datasets
 
@@ -206,13 +209,17 @@ Station data:
 - station_id (integer)
 - status
 
-
 ## Things to explore
 
 ### Possible patterns
 
-To and from work.
+Across time. To and from work.
 Social 'area' versus 'work area'
+
+Geographical.
+Travelling in one direction primarily. Downhill?
+Where people live, where they work.
+
 Special events. Concerts, festival . Yearly?
 Popularity in different areas
 
@@ -222,11 +229,24 @@ Crime?? ? any relation to bike???
 Any relation to traffic patterns?
 [New York traffic speed](https://www.kaggle.com/crailtap/nyc-real-time-traffic-speed-data-feed)
 
-Usage differences wrt weather
+Do more/less people get injured/die in traffic with actively used bike sharing system
+
+Weather dependencies.
+Temperature.
+What are peoples threshold for biking/not?
+
+Detect missing stations (underserved area). Is it possible based on our data? 
+Ideally would be based on individual trip (where people walk to afterwards? where they work/live)
+Can maybe use statistics of how many people live in areas to decide
+
+Inefficient stations. Often no bikes available?
+Almost never being used?
+
+Are there times where the bikes are not available? Taken in for season etc
 
 ### Cross-city comparisons
 
-* weather dependency??
+* Weather dependency??
 Can we compare US and Europa
 Big city versus smaller/town
 
@@ -242,6 +262,8 @@ Development over time
 
 ### Visualization
 
+Plot activity on map.
+
 ### Support or challenge existing results
 
 ### Other transportation modes
@@ -249,6 +271,25 @@ Development over time
 Can also look at other transportation modes?
 Like Taxi trips (and Uber etc).
 Either to compare, or to get inspiration for analysis
+
+### What people would like to know
+
+City transportation office.
+Is the stations being efficiently utilized?
+
+Policians.
+
+Impact on resource usage (CO2).
+Impact on health. Long term
+Commerce, money spending in area. Do people spend more money if bikes are available? 
+
+In general, evaluate impact.
+Can one do a 'dragnet' approach to finding impacts?
+Compare areas/times where bike transport is available versus not,
+across range of different factors (based on available data).
+Need to get as similar groups as possible, correct for factors
+Need to do quality control, avoiding spurious correlations.
+
 
 ### Related work
 Existing work by others
