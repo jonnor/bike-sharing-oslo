@@ -38,7 +38,7 @@ Data charateristics
 
 Per-trip
 
-* [Austin](https://www.kaggle.com/jboysen/austin-bike)
+* [Austin](https://www.kaggle.com/jboysen/austin-bike). 649231 trips. From December 2013 - July 2017. 84 MB .csv file
 * [New York Citibike](https://cloud.google.com/bigquery/public-data/nyc-citi-bike), [original](https://www.citibikenyc.com/system-data)
 * [Bay area](https://cloud.google.com/bigquery/public-data/bay-bike-share)
 * [Washington D.C. Capital Bike share](https://www.capitalbikeshare.com/system-data)
@@ -105,7 +105,7 @@ Like Taxi trips (and Uber etc).
 Either to compare, or to get inspiration for analysis
 
 ### Related work
-Existing work by othters
+Existing work by others
 
 * [Kaggle bike sharing prediction competition](https://www.kaggle.com/c/bike-sharing-demand)
 
