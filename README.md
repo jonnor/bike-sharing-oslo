@@ -61,7 +61,12 @@ Notes
 
 * Maybe use "feels like temperature" (perceputal) instead of just degrees
 
-# [New York Citibike] dataset notes
+### [New York Citibike] dataset notes
+
+Dataset size:
+  - 33,300,000+ trips
+  - September 2013 - present (updated daily)
+    
 NYC citibike_trips
   Data types:
     - Duration (time in seconds)
@@ -69,10 +74,6 @@ NYC citibike_trips
     - Start and stop station (id#, name, lat, long)
     - Bike ID
     - User data (ID, birth year, gender)
-    
-  Dataset size:
-    - 33,300,000+ trips
-    - September 2013 - present (updated daily)
     
 NYC citibike_stations
   Data types:
@@ -82,6 +83,35 @@ NYC citibike_stations
     - capacity, availablity (bikes and docks)
     - station status
 
+### [Bay area] dataset notes
+
+Dataset size:
+  - 983,000+ trips
+  - August 2013 - present (updated daily)
+
+bikeshare_trips
+  Data types:
+    - trip ID
+    - start and end data (date, station_name, station_id)
+    - bike number
+    - zip code
+    - subscriber type
+    
+bikeshare_status
+  Data types:
+    - station ID
+    - availability (bikes and docks)
+    - time
+    
+bikeshare_stations
+  Data types:
+    - station ID
+    - station name
+    - station location (lat, long)
+    - dock count
+    - landmark
+    - installation date
+   
 ## Things to explore
 
 ### Possible patterns
