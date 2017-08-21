@@ -38,14 +38,13 @@ Data charateristics
 
 Per-trip
 
-* [Austin](https://www.kaggle.com/jboysen/austin-bike). 649231 trips. From December 2013 - July 2017. 84 MB .csv file
+* [Austin](https://www.kaggle.com/jboysen/austin-bike). 649231 trips. From December 2013 - July 2017. 500 trips/day average. 84 MB .csv file
 * [New York Citibike](https://cloud.google.com/bigquery/public-data/nyc-citi-bike), [original](https://www.citibikenyc.com/system-data)
 * [Bay area](https://cloud.google.com/bigquery/public-data/bay-bike-share)
 * [Washington D.C. Capital Bike share](https://www.capitalbikeshare.com/system-data)
 * [Washington D.C, Capital Bike incl weather data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset)
 * [Seattle](https://www.kaggle.com/pronto/cycle-share-dataset)
-* [Oslo](https://developer.oslobysykkel.no/data). Individual trip data. April 2016 - July 2017 (now).
-
+* [Oslo](https://developer.oslobysykkel.no/data). Trip data. April 2016 - July 2017 (now). as .JSON and .CSV. Around 10-25 MB CSV per month. Trip only has start/end time and station. (current) station information available from HTTP API (developer account needed, free+instant signup)!
 Rentals in period
 
 * [London](https://data.london.gov.uk/dataset/number-bicycle-hires). Daily, from July 2010.
