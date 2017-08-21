@@ -83,6 +83,27 @@ NYC citibike_stations
     - capacity, availablity (bikes and docks)
     - station status
 
+
+### [Washington D.C. Capital Bike Share] dataset notes
+Data sets from september 2010 to 2017. Each set contains data for quarter of a year.
+
+Data types:
+  - Duration
+  - Start date
+  - End date
+  - Start station number
+  - Start station
+  - End station number
+  - End station
+  - Bike number
+  - Member Type
+
+Earlier Data sets have station numbers in Parenthesis after they name
+Have not yet found any other information about the locations of the stations than their station number. 
+
+The data sets are processed such that it excludes trips taken by staff (such as service etc.) and short trips under 60 seconds in duration (potential false starts).
+
+
 ### [Bay area] dataset notes
 
 Dataset size:
