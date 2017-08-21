@@ -44,8 +44,7 @@ Per-trip
 * [Washington D.C. Capital Bike share](https://www.capitalbikeshare.com/system-data)
 * [Washington D.C, Capital Bike incl weather data](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset)
 * [Seattle](https://www.kaggle.com/pronto/cycle-share-dataset)
-* [Oslo](https://developer.oslobysykkel.no/data). Trip data. April 2016 - July 2017 (now). as .JSON and .CSV. Around 10-25 MB CSV per month. Trip only has start/end time and station. (current) station information available from HTTP API (developer account needed, free+instant signup)!
-Rentals in period
+* [Oslo](https://developer.oslobysykkel.no/data).
 
 * [London](https://data.london.gov.uk/dataset/number-bicycle-hires). Daily, from July 2010.
 * [Watson Anlaytics Sample Dataset](https://www.ibm.com/communities/analytics/watson-analytics-blog/operations-dem-planning_-bikeshare/)
@@ -165,7 +164,49 @@ weather dataset
     - visibility (max, min, mean)
     - wind speed (max, mean), gust
     - precipitation (mm)
-    
+
+### [Oslo] dataset notes
+
+April 2016 - July 2017 (now). as .JSON and .CSV.
+Around 10-25 MB CSV per month.
+
+Trip data:
+
+- start time
+- end time
+- start station id
+- end station id
+
+Current station information available from HTTP API (developer account needed, free+instant signup).
+
+
+### [Austin] dataset notes
+
+Trip data:
+
+- bikeid
+- checkout_time
+- duration_minutes
+- end_station_id
+- end_station_name
+- month
+- start_station_id
+- start_station_name
+- start_time
+- subscriber_type
+- trip_id
+- year
+
+Station data:
+
+- latitude
+- longitude
+- location (lat, long)
+- name
+- station_id (integer)
+- status
+
+
 ## Things to explore
 
 ### Possible patterns
