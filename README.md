@@ -172,6 +172,7 @@ weather dataset
 
 April 2016 - July 2017 (now). as .JSON and .CSV.
 Around 10-25 MB CSV per month.
+Total of 3'180'520 trips.
 
 Trip data:
 
@@ -211,14 +212,59 @@ Station data:
 
 ## Things to explore
 
-### Possible patterns
+### Time-based features
+
+Across time.
+To and from work?
+Weekday versus weekend versus holiday.
+Seasonal changes
+
+### Geography-based features
+
+Geographical.
+
+Where people sleep, where they work, where they socialize.
+Time-based classifier for 'to work', 'from work'?
+
+Connectivity: which stations are connected to which.
+Symmetrical relationships?
+Asymmetrical? Travelling in one direction primarily. Because downhill?
+Self (same start/end station)? Glitches or people actually using bike and going back to same place. VS trip length?
+Can be counts of number of trips (in time period). Can also normalize to 0-1 to get relative connectivity.
+
+Based on this and the number of bikes in station, how likely is it that bike station is now empty?
+This could be a factor which creates 'anomalies' in the data.
+People might have planned/wanted to do a trip, but could not because there was no bike available.
+
+Migration patterns.
+Direction vectors. Plot arrows for each trip onto starting point on map.
+Can we aggregate nearby vectors to get a better overall view of migration patterns?
+What to do with 'contradicting' vectors? Maybe clustering into K direction vectors, dropping vectors that are too small.
+K-nearest neighbours?
+
+
+Note: we only know start and end point, not direction during trip. Danger of misleading viz?
+
+Can migration patterns be visualized as a heat or heightmap (overlayed onto real map)?
+Ex: "downhill" means people go that direction.
+or, "uphill" means a lot of people have arrived in area.
+
+Intra-region versus inter-region travels.
+Can be done with 'apriori' assigment of regions, as defined by local authorities, real-estate agencies or transportation companies.
+Maybe more interesting to invert the relationship, and 'define' regions through peoples travels, e.g.
+short trips versus longer ones. 
+How well does this correspond to existing definitions of regions?
+
+### Weather dependencies
+
+Temperature. Wind. Rainfall. Snowfall.
+Perceived temperature.
+What are peoples threshold for biking/not?
+
+### Other ideas for patterns
 
 Across time. To and from work.
 Social 'area' versus 'work area'
-
-Geographical.
-Travelling in one direction primarily. Downhill?
-Where people live, where they work.
 
 Special events. Concerts, festival . Yearly?
 Popularity in different areas
@@ -231,10 +277,6 @@ Any relation to traffic patterns?
 
 Do more/less people get injured/die in traffic with actively used bike sharing system
 
-Weather dependencies.
-Temperature.
-What are peoples threshold for biking/not?
-
 Detect missing stations (underserved area). Is it possible based on our data? 
 Ideally would be based on individual trip (where people walk to afterwards? where they work/live)
 Can maybe use statistics of how many people live in areas to decide
@@ -242,7 +284,10 @@ Can maybe use statistics of how many people live in areas to decide
 Inefficient stations. Often no bikes available?
 Almost never being used?
 
-Are there times where the bikes are not available? Taken in for season etc
+Are there times where the bikes are not available?
+Taken in for season etc
+Or times of the day where one cannot take bikes out
+Maximum time to rent the bike
 
 ### Cross-city comparisons
 
@@ -269,8 +314,13 @@ Plot activity on map.
 ### Other transportation modes
 
 Can also look at other transportation modes?
+
 Like Taxi trips (and Uber etc).
-Either to compare, or to get inspiration for analysis
+Public transportation (train, tram, underground).
+Could be 'connections' to public transit.
+
+Either to compare, correlate, or to get inspiration for analysis.
+
 
 ### What people would like to know
 
@@ -284,7 +334,7 @@ Impact on health. Long term
 Commerce, money spending in area. Do people spend more money if bikes are available? 
 
 In general, evaluate impact.
-Can one do a 'dragnet' approach to finding impacts?
+Can one do a 'dragnet' approach to "finding" impacts?
 Compare areas/times where bike transport is available versus not,
 across range of different factors (based on available data).
 Need to get as similar groups as possible, correct for factors
