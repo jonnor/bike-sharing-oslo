@@ -237,6 +237,10 @@ This could be a factor which creates 'anomalies' in the data.
 People might have planned/wanted to do a trip, but could not because there was no bike available.
 
 Migration patterns.
+
+http://www.cs.cmu.edu/~aarti/Class/10701/readings/Luxburg06_TR.pdf
+http://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html#sklearn.cluster.SpectralClustering
+
 Direction vectors. Plot arrows for each trip onto starting point on map.
 Can we aggregate nearby vectors to get a better overall view of migration patterns?
 What to do with 'contradicting' vectors? Maybe clustering into K direction vectors, dropping vectors that are too small.
