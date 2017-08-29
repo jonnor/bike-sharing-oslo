@@ -94,9 +94,9 @@ def station_location(stations_by_id, station_id):
     point = station['center']
     return (point['latitude'], point['longitude'])
 
-def calculate_distance(row):
-    start = station_location(int(row['Start station']))
-    end = station_location(int(row['End station']))
+def calculate_distance(stations, row):
+    start = station_location(stations, int(row['Start station']))
+    end = station_location(stations, int(row['End station']))
     if start is None or end is None:
         return math.nan
     dist = geopy.distance.great_circle(start, end)
