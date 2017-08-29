@@ -168,53 +168,64 @@ def cluster_id_for_station(clusters, station_id):
     return None
             
     
-def cluster_series(stations, clusters):
-    s = {}
-    for station_id in stations.keys():
-        cluster_id = cluster_id_for_station(clusters, station_id)
-        if cluster_id is not None:
-            s[station_id] = cluster_id
-    series = pandas.Series(s, dtype='int64')
-    return series
 
 def cluster_stats(stations, df, clusters):
 
-    def trips_for_cluster(counts, cluster_id):
-        return counts[counts['Cluster'] == cluster_id].sum()[1:]
-    
-    self_trips = df[df['End station'] == df['Start station']]
-    without_self = df[df['End station'] != df['Start station']]
-    trips_by_end = without_self.groupby('End station').count()['Start station']
-    trips_by_start = without_self.groupby('Start station').count()['End station']
-    trip_counts = pandas.DataFrame.from_dict({
-        'Outbound': trips_by_start,
-        'Inbound': trips_by_end,
-        'Internal': self_trips.count()['Start station'],
-        'Cluster': cluster_series(stations, clusters),
-    })
-    clustered_trips = [trips_for_cluster(trip_counts, idx) for idx, _ in enumerate(clusters)]
+    out = numpy.empty((len(clusters), len(clusters)))
 
-    return pandas.DataFrame(data=clustered_trips)
+    for from_cluster in range(0, len(clusters)):
+        for to_cluster in range(0, len(clusters)):
+
+            to_stations = clusters[to_cluster]
+            from_stations = clusters[from_cluster]
+
+            is_outbound = df['Start station'].isin(from_stations) & df['End station'].isin(to_stations)
+            is_inbound = df['End station'].isin(from_stations) & df['Start station'].isin(to_stations)
+            inbound, outbound = df[is_inbound], df[is_outbound]
+            
+            out[from_cluster][to_cluster] = inbound.shape[0]
+            out[to_cluster][from_cluster] = outbound.shape[0]           
+
+    return pandas.DataFrame(data=out)
 
 
 # Return a graphviz showing cluster connectivity
-def cluster_digraph(stats, title=None, label_threshold=3):
-    # FIXME: need to have data for which cluster edge goes to
+def cluster_digraph(stats, title=None, label_threshold=0.03):
     total_trips = stats.sum().sum()
     dot = Digraph(comment=title)
+
+    # Add nodes
+    # TODO: color with same as points on map
+    # TODO: make proportional to number of stations inside
     for cluster_id, data in stats.iterrows():
         node_name = str(cluster_id)
         dot.node(str(cluster_id), node_name)
-        
-        for target_id in range(0, len(stats)):
-            if target_id == cluster_id:
-                n = data['Internal']/total_trips * 100
-                dot.edge(str(cluster_id), str(cluster_id), label="%d%%" % (n,))
-            else:
-                n = data['Outbound']/total_trips * 100
-                label = None
-                if n >= label_threshold:
-                    label = "%d%%" % (n,)
-                dot.edge(str(cluster_id), str(target_id), label=label)
+
+    def rel_trips(from_, to):
+        rel = (stats.values[from_][to])/total_trips
+        return rel
+
+    def label_edge(val):
+        # Only put number on label if big enough
+        if val < label_threshold:
+            return None
+        else:
+            return "%d%%" % (val*100,)
+
+    def create_edge(f, t):
+        from_id = str(f)
+        to_id = str(t)
+
+        if from_cluster == to_cluster:
+            label = label_edge(rel_trips(f, t))
+            dot.edge(from_id, to_id, label=label)
+        else:
+            dot.edge(from_id, to_id, label=label_edge(rel_trips(f, t)))
+            dot.edge(to_id, from_id, label=label_edge(rel_trips(t, f)))
+
+    no_clusters = stats.shape[0]
+    for from_cluster in range(0, no_clusters):
+        for to_cluster in range(from_cluster, no_clusters):
+            create_edge(from_cluster, to_cluster)
 
     return dot
