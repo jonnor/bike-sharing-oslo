@@ -16,6 +16,7 @@ import numpy
 from mpl_toolkits.basemap import Basemap
 from sklearn.cluster import SpectralClustering
 import matplotlib.pyplot as plt
+from graphviz import Digraph
 
 # Tools for downloading dataset
 def trips_basename(year, month):
@@ -159,4 +160,61 @@ def plot_station_groups(stations, station_groups):
     ax = plt.gca()
     return ax
 
+# Calculate connenectivity within clusters, and between them
+def cluster_id_for_station(clusters, station_id):
+    for cluster_idx, cluster in enumerate(clusters):
+        if station_id in cluster:
+            return cluster_idx
+    return None
+            
+    
+def cluster_series(stations, clusters):
+    s = {}
+    for station_id in stations.keys():
+        cluster_id = cluster_id_for_station(clusters, station_id)
+        if cluster_id is not None:
+            s[station_id] = cluster_id
+    series = pandas.Series(s, dtype='int64')
+    return series
 
+def cluster_stats(stations, df, clusters):
+
+    def trips_for_cluster(counts, cluster_id):
+        return counts[counts['Cluster'] == cluster_id].sum()[1:]
+    
+    self_trips = df[df['End station'] == df['Start station']]
+    without_self = df[df['End station'] != df['Start station']]
+    trips_by_end = without_self.groupby('End station').count()['Start station']
+    trips_by_start = without_self.groupby('Start station').count()['End station']
+    trip_counts = pandas.DataFrame.from_dict({
+        'Outbound': trips_by_start,
+        'Inbound': trips_by_end,
+        'Internal': self_trips.count()['Start station'],
+        'Cluster': cluster_series(stations, clusters),
+    })
+    clustered_trips = [trips_for_cluster(trip_counts, idx) for idx, _ in enumerate(clusters)]
+
+    return pandas.DataFrame(data=clustered_trips)
+
+
+# Return a graphviz showing cluster connectivity
+def cluster_digraph(stats, title=None, label_threshold=3):
+    # FIXME: need to have data for which cluster edge goes to
+    total_trips = stats.sum().sum()
+    dot = Digraph(comment=title)
+    for cluster_id, data in stats.iterrows():
+        node_name = str(cluster_id)
+        dot.node(str(cluster_id), node_name)
+        
+        for target_id in range(0, len(stats)):
+            if target_id == cluster_id:
+                n = data['Internal']/total_trips * 100
+                dot.edge(str(cluster_id), str(cluster_id), label="%d%%" % (n,))
+            else:
+                n = data['Outbound']/total_trips * 100
+                label = None
+                if n >= label_threshold:
+                    label = "%d%%" % (n,)
+                dot.edge(str(cluster_id), str(target_id), label=label)
+
+    return dot
