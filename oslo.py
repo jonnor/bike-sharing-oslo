@@ -141,8 +141,9 @@ def cluster_connected(frame, n_clusters=9):
     station_clusters = sorted(station_clusters, key=len, reverse=True)
     return station_clusters
 
+colors = ['red', 'blue', 'orange', 'magenta', 'yellow', 'black', 'darkblue', 'orangered', 'aqua', 'pink', 'grey' ]
+
 def plot_station_groups(stations, station_groups):
-    colors = ['red', 'blue', 'orange', 'magenta', 'yellow', 'aqua', 'darkblue', 'orangered', 'pink', 'black', 'grey' ]
     assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_clusters),)
 
     connecivity_map = create_map()
@@ -190,16 +191,22 @@ def cluster_stats(stations, df, clusters):
 
 
 # Return a graphviz showing cluster connectivity
-def cluster_digraph(stats, title=None, label_threshold=0.03):
+def cluster_digraph(clusters, stats, title=None, label_threshold=0.03, nodesize=1.0):
     total_trips = stats.sum().sum()
     dot = Digraph(comment=title)
 
+    biggest = len(clusters[0])
+
     # Add nodes
-    # TODO: color with same as points on map
+    # TODO: use fill color instead of edge
     # TODO: make proportional to number of stations inside
     for cluster_id, data in stats.iterrows():
         node_name = str(cluster_id)
-        dot.node(str(cluster_id), node_name)
+        size = math.sqrt((len(clusters[cluster_id]) / biggest)) * nodesize
+        dot.attr('node', fixedsize='true', width=str(size))
+        dot.attr('node', style='filled', fillcolor=colors[cluster_id])
+        n = dot.node(str(cluster_id), node_name, shape='circle')
+
 
     def rel_trips(from_, to):
         rel = (stats.values[from_][to])/total_trips
