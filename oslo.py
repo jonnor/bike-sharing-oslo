@@ -15,6 +15,7 @@ import geopy.distance
 import numpy
 from mpl_toolkits.basemap import Basemap
 from sklearn.cluster import SpectralClustering
+from sklearn.cluster import AffinityPropagation
 import matplotlib.pyplot as plt
 from graphviz import Digraph
 
@@ -117,33 +118,41 @@ def create_map():
 
 
 ## Clustering
-def cluster_connected(frame, n_clusters=9):
+def cluster_connected(frame, n_clusters=9, method='spectral'):
     # Create affinity matrix
     outbound = pandas.crosstab(frame['Start station'], frame['End station'])
     inbound = pandas.crosstab(frame['End station'], frame['Start station'])
 
     connectivity = inbound + outbound
     numpy.fill_diagonal(connectivity.values, 0)
-    connectivity[:4]
 
     # Perform clustering
-    cluster = SpectralClustering(n_clusters=n_clusters, affinity='precomputed')
+    cluster = method
+    if method == 'affinitypropagation':
+        cluster = AffinityPropagation(affinity='precomputed')
+    elif method == 'spectral':
+        cluster = SpectralClustering(n_clusters=n_clusters, affinity='precomputed')        
+
     labels = cluster.fit_predict(connectivity)
-    labels
+    no_clusters = len(set(labels))
 
     # Map back to station IDs
-    station_clusters = [ [] for n in range(0, n_clusters) ]
+    station_clusters = [ [] for n in range(0, no_clusters) ]
     for idx, label in enumerate(labels):
         station = connectivity.columns[idx]
         #print(idx, station, label)
         station_clusters[label].append(station)
 
     station_clusters = sorted(station_clusters, key=len, reverse=True)
-    return station_clusters
 
-colors = ['red', 'blue', 'orange', 'magenta', 'yellow', 'black', 'darkblue', 'orangered', 'aqua', 'pink', 'grey' ]
+    if method == 'affinitypropagation':
+        return (station_clusters, cluster.cluster_centers_indices_, inbound.columns)
+    else:
+        return station_clusters
 
-def plot_station_groups(stations, station_groups):
+colors = ['red', 'blue', 'orange', 'magenta', 'yellow', 'black', 'grey', 'pink', 'orangered', 'darkblue', 'aqua', ]
+
+def plot_station_groups(stations, station_groups, center_stations=None):
     assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_clusters),)
 
     connecivity_map = create_map()
@@ -156,7 +165,15 @@ def plot_station_groups(stations, station_groups):
             center = station['center']
             lon, lat = center['longitude'], center['latitude']
             color = colors[idx]
-            poly = connecivity_map.tissot(lon,lat,0.0004,64,facecolor=color,zorder=10,alpha=1.0)
+    
+            size = 0.0004
+            linewidth = None
+            edgecolor = None
+            if center_stations and station_id in center_stations: 
+                size *= 2.0
+                linewidth = size * 0.33
+                edgecolor = 'white'
+            poly = connecivity_map.tissot(lon,lat,size,64,facecolor=color,zorder=10,alpha=0.9,edgecolor=edgecolor)
 
     ax = plt.gca()
     return ax
@@ -167,8 +184,7 @@ def cluster_id_for_station(clusters, station_id):
         if station_id in cluster:
             return cluster_idx
     return None
-            
-    
+
 
 def cluster_stats(stations, df, clusters):
 
@@ -198,15 +214,15 @@ def cluster_digraph(clusters, stats, title=None, label_threshold=0.03, nodesize=
     biggest = len(clusters[0])
 
     # Add nodes
-    # TODO: use fill color instead of edge
-    # TODO: make proportional to number of stations inside
     for cluster_id, data in stats.iterrows():
         node_name = str(cluster_id)
+        dot.attr('node', fontcolor='white')
+        # Color node to same as plots
+        dot.attr('node', style='filled', fillcolor=colors[cluster_id])
+        # Area proportional to size of cluster
         size = math.sqrt((len(clusters[cluster_id]) / biggest)) * nodesize
         dot.attr('node', fixedsize='true', width=str(size))
-        dot.attr('node', style='filled', fillcolor=colors[cluster_id])
-        n = dot.node(str(cluster_id), node_name, shape='circle')
-
+        dot.node(str(cluster_id), node_name, shape='circle')
 
     def rel_trips(from_, to):
         rel = (stats.values[from_][to])/total_trips
@@ -230,7 +246,7 @@ def cluster_digraph(clusters, stats, title=None, label_threshold=0.03, nodesize=
             dot.edge(from_id, to_id, label=label_edge(rel_trips(f, t)))
             dot.edge(to_id, from_id, label=label_edge(rel_trips(t, f)))
 
-    no_clusters = stats.shape[0]
+    no_clusters = len(clusters)
     for from_cluster in range(0, no_clusters):
         for to_cluster in range(from_cluster, no_clusters):
             create_edge(from_cluster, to_cluster)
