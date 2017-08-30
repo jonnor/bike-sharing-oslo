@@ -18,6 +18,7 @@ from sklearn.cluster import SpectralClustering
 from sklearn.cluster import AffinityPropagation
 import matplotlib.pyplot as plt
 from graphviz import Digraph
+import folium
 
 # Tools for downloading dataset
 def trips_basename(year, month):
@@ -104,17 +105,11 @@ def calculate_distance(stations, row):
     return dist.meters
 
 ## Map plotting
-def create_map():
-    # http://spatialreference.org/ref/epsg/27393/
-    epsg=27393 # Oslo III
-    epsg=3857 # Implies some Mercator projection, need to set upper/lower corners and lat_ts
-
-    m = Basemap(resolution='l', epsg=epsg,
-                llcrnrlon=10.70, urcrnrlon=10.80, llcrnrlat=59.90, urcrnrlat=59.94,
-                lat_ts=59.93)
-
-    m.arcgisimage()
-    return m
+def create_map(**kwargs):
+    map_center = [59.925, 10.75]
+    map_zoom = 12
+    base_map = folium.Map(location=map_center, zoom_start=map_zoom, control_scale=False, **kwargs)
+    return base_map
 
 
 ## Clustering
@@ -150,12 +145,13 @@ def cluster_connected(frame, n_clusters=9, method='spectral'):
     else:
         return station_clusters
 
-colors = ['red', 'blue', 'orange', 'magenta', 'yellow', 'black', 'grey', 'pink', 'orangered', 'darkblue', 'aqua', ]
+colors = ['red', 'blue', 'green', 'orange', 'magenta', 'yellow', 'black', 'grey', 'pink', 'orangered', 'darkblue', 'aqua', ]
 
-def plot_station_groups(stations, station_groups, center_stations=None):
+
+def plot_station_groups(stations, station_groups, center_stations=None, station_size=4.0):
     assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_clusters),)
 
-    connecivity_map = create_map()
+    connectivity_map = create_map()
         
     for idx, cluster in enumerate(station_groups):
         for station_id in cluster:
@@ -166,17 +162,19 @@ def plot_station_groups(stations, station_groups, center_stations=None):
             lon, lat = center['longitude'], center['latitude']
             color = colors[idx]
     
-            size = 0.0004
-            linewidth = None
-            edgecolor = None
+            edge_color = color
+            size = station_size
             if center_stations and station_id in center_stations: 
                 size *= 2.0
-                linewidth = size * 0.33
-                edgecolor = 'white'
-            poly = connecivity_map.tissot(lon,lat,size,64,facecolor=color,zorder=10,alpha=0.9,edgecolor=edgecolor)
+                edge_color = '#000000'
 
-    ax = plt.gca()
-    return ax
+            folium.CircleMarker([lat, lon],
+                        weight=2.0,
+                        radius=size, popup=station['title'],
+                        color=edge_color, fill_color=color,
+            ).add_to(connectivity_map)
+
+    return connectivity_map
 
 # Calculate connenectivity within clusters, and between them
 def cluster_id_for_station(clusters, station_id):
