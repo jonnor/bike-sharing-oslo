@@ -90,6 +90,11 @@ def read_stations():
 
 # Enrich trip data with distance of the trip
 def station_location(stations_by_id, station_id):
+    try:    
+        station_id = int(station_id)
+    except ValueError as e:
+        return None
+
     station = stations_by_id.get(station_id, None)
     if not station:
         return None
@@ -97,8 +102,8 @@ def station_location(stations_by_id, station_id):
     return (point['latitude'], point['longitude'])
 
 def calculate_distance(stations, row):
-    start = station_location(stations, int(row['Start station']))
-    end = station_location(stations, int(row['End station']))
+    start = station_location(stations, row['Start station'])
+    end = station_location(stations, row['End station'])
     if start is None or end is None:
         return math.nan
     dist = geopy.distance.great_circle(start, end)
@@ -145,11 +150,11 @@ def cluster_connected(frame, n_clusters=9, method='spectral'):
     else:
         return station_clusters
 
-colors = ['red', 'blue', 'green', 'orange', 'magenta', 'yellow', 'black', 'grey', 'pink', 'orangered', 'darkblue', 'aqua', ]
+colors = ['red', 'blue', 'green', 'orange', 'magenta', 'yellow', 'black', 'grey', 'darkblue', 'orangered', 'pink', 'aqua', 'white', 'white', 'white' ]
 
 
 def plot_station_groups(stations, station_groups, center_stations=None, station_size=4.0):
-    assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_clusters),)
+    assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_groups),)
 
     connectivity_map = create_map()
         
