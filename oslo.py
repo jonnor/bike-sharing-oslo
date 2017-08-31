@@ -112,7 +112,7 @@ def calculate_distance(stations, row):
 ## Map plotting
 def create_map(**kwargs):
     map_center = [59.925, 10.75]
-    map_zoom = 12
+    map_zoom = 13
     base_map = folium.Map(location=map_center, zoom_start=map_zoom, control_scale=False, **kwargs)
     return base_map
 
@@ -153,7 +153,7 @@ def cluster_connected(frame, n_clusters=9, method='spectral'):
 colors = ['red', 'blue', 'green', 'orange', 'magenta', 'yellow', 'black', 'grey', 'darkblue', 'orangered', 'pink', 'aqua', 'white', 'white', 'white' ]
 
 
-def plot_station_groups(stations, station_groups, center_stations=None, station_size=4.0):
+def plot_station_groups(stations, station_groups, center_stations=None, station_size=5.0):
     assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_groups),)
 
     connectivity_map = create_map()
