@@ -13,7 +13,6 @@ from zipfile import ZipFile
 import pandas
 import geopy.distance
 import numpy
-from mpl_toolkits.basemap import Basemap
 from sklearn.cluster import SpectralClustering
 from sklearn.cluster import AffinityPropagation
 import matplotlib.pyplot as plt
@@ -35,10 +34,10 @@ def download_trip(year, month):
     filename = trips_basename(year, month) + '.csv'
     outpath = "data/"+filename
     if os.path.exists(outpath):
-        print('skipping existing %s' % (url))
+        print('using existing %s' % (filename))
         return outpath
     
-    print('downloading %s' % (url,))
+    print('downloading %s' % (filename,))
     
     # Download ZIP to memory
     # ZipFile requires seek() which urlib does not implement
@@ -255,3 +254,37 @@ def cluster_digraph(clusters, stats, title=None, label_threshold=0.03, nodesize=
             create_edge(from_cluster, to_cluster)
 
     return dot
+
+def plot_trip_times(series, title=None, selected=None, ymax=2500, bins=48, scale=1.0):
+    # Normalize histogram to be per day
+    data = series.dropna().values
+    weights = numpy.full(data.shape, 1/scale)
+    
+    # Plot distribution of trips over the day
+    fig = plt.figure()
+    axs = fig.add_subplot(111)
+    _, bins, patches = plt.hist(data, bins=bins, zorder=1, weights=weights)
+    plt.xticks(range(0, 24*3600, 4*3600))
+    
+    axs.set_ylim([0, ymax])
+    axs.set_xlim([0, 24*3600])
+    axs.tick_params(axis='both', labelsize=16)
+
+    # Show a typical workday
+    workday = (7*3600, 17*3600)
+    workday_color = '#19880d'
+    axs.axvspan(xmin=workday[0], xmax=workday[1], alpha=0.2, color=workday_color, zorder=0)
+    plt.text(s='Workday period', x=(9.5*3600), y=ymax-100, fontsize=16)
+    
+    # Colorize selected part of data
+    selected_color = '#1b62a5'
+    unselected_color = 'grey'
+    for patch, start in zip(patches, bins):
+        s = True if selected is None else (start > selected[0] and start < selected[1])
+        c = selected_color if s else unselected_color
+        patch.set_facecolor(c)
+
+    axs.set_xlabel('Time of day', fontsize=28)
+    axs.set_ylabel('Number of trips', fontsize=28)
+    plt.savefig('%s.png' % title, format='png', dpi=300)
+    return plt
