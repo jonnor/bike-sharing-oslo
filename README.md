@@ -4,9 +4,9 @@ Exploring aspects of bike sharing using data science.
 
 For INF121 class at NMBU, as part of Master in Data Science.
 
-## Status
+## [Jupyter notebook](./Oslo.ipynb)
 
-Project completed September 2017
+Note: maps don't show in Github, unfortunately.
 
 ## [Notes](./doc/notes.md)
 
