@@ -153,7 +153,7 @@ def cluster_spectral(frame, n_clusters=9):
 def cluster_affinity(frame):
     connectivity = station_connectivity(frame)
     cluster = AffinityPropagation(affinity='precomputed')
-    cluster.fit_predict(connectivity)
+    labels = cluster.fit_predict(connectivity)
 
     centers = cluster.cluster_centers_indices_
     center_stations = [ connectivity.columns.values[idx] for idx in centers ]
