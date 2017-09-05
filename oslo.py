@@ -115,22 +115,19 @@ def create_map(**kwargs):
 
 
 ## Clustering
-def cluster_connected(frame, n_clusters=9, method='spectral'):
-    # Create affinity matrix
+# Calculate number of trips
+def station_connectivity(frame):
+    # Returns an affinity matrix
     outbound = pandas.crosstab(frame['Start station'], frame['End station'])
     inbound = pandas.crosstab(frame['End station'], frame['Start station'])
-
+    # Using the sum gives us an undirected affinity
+    # This makes the matrix symmetrical across the diagonal, required by spectral clustering
     connectivity = inbound + outbound
+    # Spectral clustering also requires diagonal to be zero
     numpy.fill_diagonal(connectivity.values, 0)
+    return connectivity
 
-    # Perform clustering
-    cluster = method
-    if method == 'affinitypropagation':
-        cluster = AffinityPropagation(affinity='precomputed')
-    elif method == 'spectral':
-        cluster = SpectralClustering(n_clusters=n_clusters, affinity='precomputed')        
-
-    labels = cluster.fit_predict(connectivity)
+def cluster_labels_to_station_ids(connectivity, labels):
     no_clusters = len(set(labels))
 
     # Map back to station IDs
@@ -139,13 +136,30 @@ def cluster_connected(frame, n_clusters=9, method='spectral'):
         station = connectivity.columns[idx]
         #print(idx, station, label)
         station_clusters[label].append(station)
-
+    
+    # Largest clusters first
     station_clusters = sorted(station_clusters, key=len, reverse=True)
+    return station_clusters
 
-    if method == 'affinitypropagation':
-        return (station_clusters, cluster.cluster_centers_indices_, inbound.columns)
-    else:
-        return station_clusters
+def cluster_spectral(frame, n_clusters=9):
+    connectivity = station_connectivity(frame)
+    cluster = SpectralClustering(n_clusters=n_clusters, affinity='precomputed')        
+    labels = cluster.fit_predict(connectivity)
+
+    station_clusters = cluster_labels_to_station_ids(connectivity, labels)
+
+    return station_clusters
+
+def cluster_affinity(frame):
+    connectivity = station_connectivity(frame)
+    cluster = AffinityPropagation(affinity='precomputed')
+    cluster.fit_predict(connectivity)
+
+    centers = cluster.cluster_centers_indices_
+    center_stations = [ connectivity.columns.values[idx] for idx in centers ]
+    station_clusters = cluster_labels_to_station_ids(connectivity, labels)
+
+    return (station_clusters, center_stations)
 
 def plot_station_groups(stations, station_groups, center_stations=None, station_size=5.0):
     assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_groups),)
