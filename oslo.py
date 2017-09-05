@@ -19,6 +19,13 @@ import matplotlib.pyplot as plt
 from graphviz import Digraph
 import folium
 
+# Shared between plotting methods so they match
+colors = [
+    'red', 'blue', 'green', 'orange', 'magenta',
+    'yellow', 'black', 'grey', 'darkblue', 'orangered',
+    'pink', 'aqua', 'white', 'white', 'white',
+]
+
 # Tools for downloading dataset
 def trips_basename(year, month):
     firstday, lastday = (1, calendar.monthrange(year, month)[1])
@@ -31,26 +38,17 @@ def trips_url(year, month):
 
 def download_trip(year, month):    
     url = trips_url(year, month)
-    filename = trips_basename(year, month) + '.csv'
+    filename = trips_basename(year, month) + '.csv.zip'
     outpath = "data/"+filename
     if os.path.exists(outpath):
         print('using existing %s' % (filename))
         return outpath
     
     print('downloading %s' % (filename,))
-    
-    # Download ZIP to memory
-    # ZipFile requires seek() which urlib does not implement
-    temp = BytesIO()
-    temp.write(urllib.request.urlopen(url).read())
-    zipfile = ZipFile(temp)
+    outfile = open(outpath, 'wb+')
+    outfile.write(urllib.request.urlopen(url).read())
 
-    # Write to disk
-    csvfile = open(outpath, 'wb+')
-    csvfile.write(zipfile.read(filename))
-
-    csvfile.close()
-    zipfile.close()
+    outfile.close()
     return outpath
 
 def months_between(start, end):
@@ -149,9 +147,6 @@ def cluster_connected(frame, n_clusters=9, method='spectral'):
     else:
         return station_clusters
 
-colors = ['red', 'blue', 'green', 'orange', 'magenta', 'yellow', 'black', 'grey', 'darkblue', 'orangered', 'pink', 'aqua', 'white', 'white', 'white' ]
-
-
 def plot_station_groups(stations, station_groups, center_stations=None, station_size=5.0):
     assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_groups),)
 
@@ -180,14 +175,8 @@ def plot_station_groups(stations, station_groups, center_stations=None, station_
 
     return connectivity_map
 
-# Calculate connenectivity within clusters, and between them
-def cluster_id_for_station(clusters, station_id):
-    for cluster_idx, cluster in enumerate(clusters):
-        if station_id in cluster:
-            return cluster_idx
-    return None
 
-
+# Calculate number of trips between clusters
 def cluster_stats(stations, df, clusters):
 
     out = numpy.empty((len(clusters), len(clusters)))
@@ -200,10 +189,9 @@ def cluster_stats(stations, df, clusters):
 
             is_outbound = df['Start station'].isin(from_stations) & df['End station'].isin(to_stations)
             is_inbound = df['End station'].isin(from_stations) & df['Start station'].isin(to_stations)
-            inbound, outbound = df[is_inbound], df[is_outbound]
-            
-            out[from_cluster][to_cluster] = inbound.shape[0]
-            out[to_cluster][from_cluster] = outbound.shape[0]           
+
+            out[from_cluster][to_cluster] = df[is_inbound].shape[0]
+            out[to_cluster][from_cluster] = df[is_outbound].shape[0]           
 
     return pandas.DataFrame(data=out)
 
