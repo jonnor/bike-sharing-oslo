@@ -13,8 +13,6 @@ from zipfile import ZipFile
 import pandas
 import geopy.distance
 import numpy
-from sklearn.cluster import SpectralClustering
-from sklearn.cluster import AffinityPropagation
 import matplotlib.pyplot as plt
 from graphviz import Digraph
 import folium
@@ -114,53 +112,6 @@ def create_map(**kwargs):
     return base_map
 
 
-## Clustering
-# Calculate number of trips
-def station_connectivity(frame):
-    # Returns an affinity matrix
-    outbound = pandas.crosstab(frame['Start station'], frame['End station'])
-    inbound = pandas.crosstab(frame['End station'], frame['Start station'])
-    # Using the sum gives us an undirected affinity
-    # This makes the matrix symmetrical across the diagonal, required by spectral clustering
-    connectivity = inbound + outbound
-    # Spectral clustering also requires diagonal to be zero
-    numpy.fill_diagonal(connectivity.values, 0)
-    return connectivity
-
-def cluster_labels_to_station_ids(connectivity, labels):
-    no_clusters = len(set(labels))
-
-    # Map back to station IDs
-    station_clusters = [ [] for n in range(0, no_clusters) ]
-    for idx, label in enumerate(labels):
-        station = connectivity.columns[idx]
-        #print(idx, station, label)
-        station_clusters[label].append(station)
-    
-    # Largest clusters first
-    station_clusters = sorted(station_clusters, key=len, reverse=True)
-    return station_clusters
-
-def cluster_spectral(frame, n_clusters=9):
-    connectivity = station_connectivity(frame)
-    cluster = SpectralClustering(n_clusters=n_clusters, affinity='precomputed')        
-    labels = cluster.fit_predict(connectivity)
-
-    station_clusters = cluster_labels_to_station_ids(connectivity, labels)
-
-    return station_clusters
-
-def cluster_affinity(frame):
-    connectivity = station_connectivity(frame)
-    cluster = AffinityPropagation(affinity='precomputed')
-    labels = cluster.fit_predict(connectivity)
-
-    centers = cluster.cluster_centers_indices_
-    center_stations = [ connectivity.columns.values[idx] for idx in centers ]
-    station_clusters = cluster_labels_to_station_ids(connectivity, labels)
-
-    return (station_clusters, center_stations)
-
 def plot_station_groups(stations, station_groups, center_stations=None, station_size=5.0):
     assert len(colors) >= len(station_groups), "Missing colors %d" % (len(colors)-len(station_groups),)
 
@@ -188,26 +139,6 @@ def plot_station_groups(stations, station_groups, center_stations=None, station_
             ).add_to(connectivity_map)
 
     return connectivity_map
-
-
-# Calculate number of trips between clusters
-def cluster_stats(stations, df, clusters):
-
-    out = numpy.empty((len(clusters), len(clusters)))
-
-    for from_cluster in range(0, len(clusters)):
-        for to_cluster in range(0, len(clusters)):
-
-            to_stations = clusters[to_cluster]
-            from_stations = clusters[from_cluster]
-
-            is_outbound = df['Start station'].isin(from_stations) & df['End station'].isin(to_stations)
-            is_inbound = df['End station'].isin(from_stations) & df['Start station'].isin(to_stations)
-
-            out[from_cluster][to_cluster] = df[is_inbound].shape[0]
-            out[to_cluster][from_cluster] = df[is_outbound].shape[0]           
-
-    return pandas.DataFrame(data=out)
 
 
 # Return a graphviz showing cluster connectivity
